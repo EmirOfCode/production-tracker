@@ -59,8 +59,9 @@
         };
 
         function displayArticles() {
-            const articlesGrid = document.getElementById('articlesList');
-            articlesGrid.innerHTML = '';
+            const articlesGrid = document.getElementById('articlesGrid');
+            const articleList = document.getElementById('articleList');
+            articleList.innerHTML = '';
             productionData.articles.forEach((article, index) => {
                 const articleDiv = document.createElement('div');
                 articleDiv.className = 'article';
@@ -68,7 +69,7 @@
                     ${article}
                     <button onclick="removeArticle(${index})">X</button>
                 `;
-                articlesGrid.appendChild(articleDiv);
+                articleList.appendChild(articleDiv);
             });
 
             articlesGrid.style.display = productionData.articles.length > 0 ? 'block' : 'none';
