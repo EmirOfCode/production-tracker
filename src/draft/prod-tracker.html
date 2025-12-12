@@ -6,7 +6,7 @@
     <style>
         body {
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
             height: 100vh;
             margin: 0;
@@ -16,6 +16,7 @@
         .container {
             display: flex;
             gap: 20px;
+            margin-bottom: 20px;
         }
         .button {
             width: 200px;
@@ -36,6 +37,19 @@
         .button:hover {
             background-color: #45a049;
         }
+        #articlesGrid {
+            display: none;
+            margin-top: 20px;
+            border: 1px solid #ccc;
+            padding: 10px;
+            width: 300px;
+            background-color: white;
+        }
+        .article {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -43,13 +57,50 @@
         const productionData = {
             articles: []
         };
+
+        function displayArticles() {
+            const articlesGrid = document.getElementById('articlesGrid');
+            articlesGrid.innerHTML = '';
+            productionData.articles.forEach((article, index) => {
+                const articleDiv = document.createElement('div');
+                articleDiv.className = 'article';
+                articleDiv.innerHTML = `
+                    ${article}
+                    <button onclick="removeArticle(${index})">X</button>
+                `;
+                articlesGrid.appendChild(articleDiv);
+            });
+
+            articlesGrid.style.display = productionData.articles.length > 0 ? 'block' : 'none';
+        }
+
+        function addArticle() {
+            const articleNameInput = document.getElementById('articleName');
+            const articleName = articleNameInput.value.trim();
+            if (articleName) {
+                productionData.articles.push(articleName);
+                articleNameInput.value = '';
+                displayArticles();
+            }
+        }
+
+        function removeArticle(index) {
+            productionData.articles.splice(index, 1);
+            displayArticles();
+        }
     </script>
+    
     <div class="container">
-        <button class="button">Articoli</button>
+        <button class="button" onclick="document.getElementById('articlesGrid').style.display = 'block';">Articoli</button>
         <button class="button">Ingresso Merce</button>
         <button class="button">Tostatura</button>
         <button class="button">Miscelazione</button>
         <button class="button">Vendita Merce</button>
+    </div>
+
+    <div id="articlesGrid">
+        <input type="text" id="articleName" placeholder="Nome articolo"/>
+        <button onclick="addArticle()">Aggiungi Articolo</button>
     </div>
 </body>
 </html>
